@@ -1,4 +1,4 @@
-import http from "http";
+import http from "express";
 import mysql from "mysql2";
 
 const db = mysql.createConnection({
@@ -8,25 +8,15 @@ const db = mysql.createConnection({
   password: "",
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err.stack);
-    return;
-  }
-  console.log("Connected to database");
-});
+const app = express();
 
-const server = http.createServer((req, res) => {
-  
+app.get("/users", (req, res) => {
   db.query("SELECT * FROM users", (err, result) => {
     if (err) {
-      res.writeHead(500, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "Internal server error" }));
+      res.end("Internal server error" );
       return;
     }
-
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify(result));
+    res.json(result);
   });
 });
 
