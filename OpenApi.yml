@@ -1,0 +1,110 @@
+openapi: '3.0.3'
+info:
+  title: API Title
+  version: '1.0'
+servers:
+  - url: https://localhost:3000
+
+components:
+  schemas:
+    user:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        age:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+
+paths:
+  /users:
+    get:
+      description: 'endpoint untuk mendapatkan semua data user'
+      parameters: []
+      responses:
+        '200':
+          description: Berhasil
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+        '500':
+          description: Server Gagal
+        '403':
+          description: Tidak diizinkan
+
+  /users/{id}:
+    get:
+      description: 'endpoint untuk mendapatkan data user berdasarkan id'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+          '200':
+            description: Berhasil
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/user'
+          '500':
+            description: Server Gagal
+          '403':
+            description: Tidak diizinkan
+    delete:
+      description: 'endpoint untuk menghapus data user berdasarkan id'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+          '200':
+            description: Berhasil
+          '500':
+            description: Server Gagal
+          '403':
+            description: Tidak diizinkan
+    put:
+      description: 'endpoint untuk mengubah data user berdasarkan id'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: age
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Berhasil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        
