@@ -1,5 +1,10 @@
-import http from "express";
+import express from "express";
 import mysql from "mysql2";
+import swaggerUi from "swagger-ui-express";
+import fs from 'fs';
+import YAML from 'yaml';
+
+const swaggerDocument = YAML.parse(fs.readFileSync('./openapi/spec.yaml', 'utf8'));
 
 const db = mysql.createConnection({
   host: "localhost",
@@ -20,6 +25,6 @@ app.get("/users", (req, res) => {
   });
 });
 
-server.listen(3000, () =>
+app.listen(3000, () =>
   console.log("Server is running on http://localhost:3000")
 );
